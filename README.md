@@ -31,7 +31,7 @@ pip3 install dill loguru psutil scapy
 
 Finally, clone our repo:
 ```bash
-git clone https://github.com/dolevelbaz/odyssey2021.git
+git clone https://github.com/dolevelbaz/odysseyhpc.git
 ```
 
 # Exercise
