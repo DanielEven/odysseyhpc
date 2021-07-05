@@ -54,7 +54,7 @@ def main():
             logger.warning(f"{jobs_file} does not exist")
             sys.exit(-1)
         with open(jobs_file, "r") as f:
-            jobs_str = f.readlines()
+            jobs_str = f.readlines()[0]
 
     jobs = jobs_str.split(',')
     lb = Endpoint(args.lb)
