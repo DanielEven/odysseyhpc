@@ -40,7 +40,7 @@ def count_ipv4_tcp_packets(pcap_path: str):
     return count
 
 
-def count_connection_packets(pcap_path: str, client: Endpoint, server: Endpoint):
+def count_tcp_connection_packets(pcap_path: str, client: Endpoint, server: Endpoint):
     count = 0
     # TODO implement (stage 1)
     return count
@@ -58,7 +58,7 @@ def process_pcap_single(pcap_path: str, connection: Optional[Connection] = None)
     logger.info(f"Processing {pcap_path}...")
     total = count_packets(pcap_path)
     ipv4_tcp = count_ipv4_tcp_packets(pcap_path)
-    connections = count_connection_packets(pcap_path, connection.client, connection.server) if connection else None
+    connections = count_tcp_connection_packets(pcap_path, connection.client, connection.server) if connection else None
     log_results(pcap_path, total, ipv4_tcp, connections, connection)
     logger.info("Done!")
 
@@ -96,5 +96,4 @@ def main():
 
 
 if __name__ == '__main__':
-    logger.add(sys.stderr, format="{time} {level} {message}", level="INFO")
     main()

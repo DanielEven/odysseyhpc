@@ -34,7 +34,7 @@ Finally, clone our repo:
 git clone https://github.com/dolevelbaz/odysseyhpc.git
 ```
 
-# Exercise
+# Exercise 1
 ## Stages
 1. Implement packet processing logic using scapy for a single core - fill in code for TODOs in `src/main.py`. See [scapy.md](docs/scapy.md).
     ```python
@@ -46,7 +46,7 @@ git clone https://github.com/dolevelbaz/odysseyhpc.git
 2. Benchmark performance with [perf](docs/perf.md).
 3. Modify the program so it can run on multiple cores using `multiprocess` module. See [multiprocess.md](docs/multiprocess.md). You should now run it with the `--multi` flag. First implement without client/server support.
 4. Optimize and continue benchmarking.
-5. Implement a distributed version - primary that splits the work between multiple secondary machines that do the processing. Before you rush into coding, design the solution. How is data passed? How many workers can you run? How are you going to test it?
+5. Implement a distributed version: a master machine that splits the work between multiple worker machines that do the processing.
 
 
 ## Input Files
@@ -65,3 +65,35 @@ Small:
 * 121 packets for connection 184.85.226.161:443<->172.16.255.1:10646 (both directions)
 
 Big: let me know what you got :)
+
+# Exercise 2
+Now that you know how to run a distributed multi-process app and measure its performance with `perf`, you'll implement a simple load balancer (LB).
+
+There are two types of jobs:
+1. `GET_TIME` - get the current time in seconds
+2. `MINE_BITCOIN` - calculate the `sha256` hash of the current time in seconds for 256 times, i.e. calculate `sha256(sha256(sha256...sha256(current_time)))` [NOTE: of course this is does not really mine Bitcoin, but for this exercise it's close enough.]
+
+The following scheme illustrates the flow:
+
+![](images/lb.png)
+
+The LB waits for client job requests arriving on a TCP socket. Each packet represents one job request and its payload contains the job's number. For example, a packet with payload=1 is a `GET_TIME` job request. The LB chooses a worker to run the job and waits for the result, then sending it back to the client.
+
+Note that different workers might have different hardware specifications, thus your LB should take that into account when choosing the worker to execute the job.
+
+For your convenience, a [test client](src/client.py) is available. An example for running it:
+```bash
+# from command line
+python3 client.py --lb 127.0.0.1:13337 --jobs 1,2,1,1,1,2
+# from a file
+echo 1,2,1,1,1,2 > jobs.txt
+python3 client.py --lb 127.0.0.1:13337 --f jobs.txt
+```
+
+Before you begin coding, take some time to think about the architecture of your solution. How is data passed to/from worker? Which worker should run each job? How are you going to test it?
+
+This exercise will be done in teams of 3, meaning you have 3 VMs for each team.
+One VM will run the LB (and test client), while the two other VMs will run workers.
+In order to determine who the best team is, you'll measure the performance of your LB with `perf`.
+
+Good luck!
