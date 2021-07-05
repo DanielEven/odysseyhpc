@@ -40,7 +40,7 @@ def count_ipv4_tcp_packets(pcap_path: str):
     return count
 
 
-def count_connection_packets(pcap_path: str, client: EndpointDetails, server: EndpointDetails):
+def count_connection_packets(pcap_path: str, client: Endpoint, server: Endpoint):
     count = 0
     # TODO implement (stage 1)
     return count
@@ -54,7 +54,7 @@ def log_results(pcap_path: str, total: int, ipv4_tcp: int, connections: Optional
         logger.info(f"{pcap_path} contains {connections} packets for connection {connection}")
 
 
-def process_pcap_single(pcap_path: str, connection: Optional[Connection]):
+def process_pcap_single(pcap_path: str, connection: Optional[Connection] = None):
     logger.info(f"Processing {pcap_path}...")
     total = count_packets(pcap_path)
     ipv4_tcp = count_ipv4_tcp_packets(pcap_path)
@@ -63,7 +63,7 @@ def process_pcap_single(pcap_path: str, connection: Optional[Connection]):
     logger.info("Done!")
 
 
-def process_pcap_multi(pcap_path: str, connection: Optional[Connection]):
+def process_pcap_multi(pcap_path: str):
     # TODO implement (stage 3)
     pass
 

@@ -46,6 +46,7 @@ git clone https://github.com/dolevelbaz/odysseyhpc.git
 2. Benchmark performance with [perf](docs/perf.md).
 3. Modify the program so it can run on multiple cores using `multiprocess` module. See [multiprocess.md](docs/multiprocess.md). You should now run it with the `--multi` flag. First implement without client/server support.
 4. Optimize and continue benchmarking.
+5. Implement a distributed version - primary that splits the work between multiple secondary machines that do the processing. Before you rush into coding, design the solution. How is data passed? How many workers can you run? How are you going to test it?
 
 
 ## Input Files
@@ -61,6 +62,6 @@ curl https://s3.amazonaws.com/tcpreplay-pcap-files/bigFlows.pcap --output pcaps/
 Small:
 * 14261 packets
 * 13708 IPv4 TCP packets
-* 121 packets for connection 184.85.226.161:443->172.16.255.1:10646
+* 121 packets for connection 184.85.226.161:443<->172.16.255.1:10646 (both directions)
 
 Big: let me know what you got :)
